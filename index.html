@@ -35,9 +35,7 @@
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+      to { opacity: 1; }
     }
 
     @keyframes fadeInText {
@@ -73,8 +71,10 @@
   <h1 id="title"></h1>
   <p id="message"></p>
 
+  <!-- YouTube player autoplay halus -->
   <iframe 
-    src="https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0" 
+    id="musicPlayer"
+    src="https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0&mute=1" 
     allow="autoplay">
   </iframe>
 
@@ -92,10 +92,7 @@
     const titleEl = document.getElementById("title");
     const msgEl = document.getElementById("message");
 
-    let i = 0;
-    let j = 0;
-    let currentMessage = "";
-    let isTitleDone = false;
+    let i = 0, j = 0, isTitleDone = false;
 
     function typeEffect() {
       if (!isTitleDone) {
@@ -109,11 +106,11 @@
         }
       } else {
         if (j < messages.length) {
-          currentMessage = messages[j];
+          let current = messages[j];
           msgEl.textContent = "";
-          typeSentence(currentMessage, 0, () => {
+          typeSentence(current, 0, () => {
             j++;
-            setTimeout(typeEffect, 3000);
+            setTimeout(typeEffect, 2500);
           });
         }
       }
@@ -130,7 +127,7 @@
 
     function createBalloons() {
       for (let i = 0; i < 20; i++) {
-        let balloon = document.createElement("div");
+        const balloon = document.createElement("div");
         balloon.classList.add("balloon");
         balloon.style.left = Math.random() * 100 + "vw";
         balloon.style.animationDelay = Math.random() * 5 + "s";
@@ -138,6 +135,12 @@
         document.body.appendChild(balloon);
       }
     }
+
+    // Fade-in musik biar gak delay kasar
+    const iframe = document.getElementById("musicPlayer");
+    setTimeout(() => {
+      iframe.src = "https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0&mute=0";
+    }, 1500);
 
     createBalloons();
     typeEffect();
