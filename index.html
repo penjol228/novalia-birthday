@@ -3,117 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Novalia 💖</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Selamat Ulang Tahun Novalia 💖</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
+      margin: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
       overflow: hidden;
+      background: linear-gradient(to bottom right, #ffdde1, #ee9ca7);
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
+      flex-direction: column;
       font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
     }
 
     h1 {
-      color: white;
-      font-size: 2.5em;
+      font-size: 2.3em;
       margin-bottom: 10px;
-      animation: fadeInDown 2s ease-in-out;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
     }
 
     p {
-      color: white;
       font-size: 1.2em;
-      max-width: 450px;
-      animation: fadeInUp 3s ease-in-out;
-      line-height: 1.5;
+      max-width: 80%;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeInText 1s ease forwards;
     }
 
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeInText {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Balon animasi */
     .balloon {
       position: absolute;
       bottom: -150px;
       width: 60px;
       height: 80px;
       border-radius: 50%;
-      opacity: 0.9;
-      animation: float 6s linear infinite;
+      background: rgba(255,255,255,0.7);
+      animation: float 6s ease-in-out infinite;
     }
 
     @keyframes float {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-110vh); }
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-110vh); opacity: 0; }
     }
 
-    /* Button musik */
-    .music-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: rgba(255,255,255,0.8);
+    iframe {
+      position: absolute;
+      bottom: 10px;
+      width: 0;
+      height: 0;
       border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
     }
-
-    .music-btn:hover {
-      background-color: rgba(255,255,255,1);
-    }
-
   </style>
 </head>
 <body>
-  <h1>Selamat Ulang Tahun, Novalia 🎂</h1>
-  <p>Hari ini bukan cuma tentang bertambahnya usia,  
-     tapi juga tentang betapa berartinya kamu di hidupku.  
-     Semoga senyum kamu selalu jadi alasan bahagia dunia 💕</p>
+  <h1 id="title"></h1>
+  <p id="message"></p>
 
-  <button class="music-btn" onclick="toggleMusic()">🎵 Musik</button>
-
-  <audio id="bgMusic" loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_4b1f84c3c7.mp3?filename=happy-birthday-12462.mp3" type="audio/mpeg">
-  </audio>
+  <iframe 
+    src="https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0" 
+    allow="autoplay">
+  </iframe>
 
   <script>
-    // Fungsi buat balon
-    function createBalloon() {
-      const balloon = document.createElement('div');
-      balloon.classList.add('balloon');
-      balloon.style.left = Math.random() * 100 + 'vw';
-      balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 70%)`;
-      balloon.style.animationDuration = (5 + Math.random() * 5) + 's';
-      document.body.appendChild(balloon);
-      setTimeout(() => balloon.remove(), 7000);
-    }
-    setInterval(createBalloon, 400);
+    const title = "Selamat Ulang Tahun Novalia 💖";
+    const messages = [
+      "Hari ini hari spesial banget, hari dimana kamu dilahirkan ke dunia 🌷",
+      "Aku cuma mau bilang makasih, udah jadi seseorang yang luar biasa buat aku 💫",
+      "Setiap detik bersamamu itu berharga, bahkan cuma sekadar ngobrol ringan 💌",
+      "Semoga di umurmu yang sekarang, semua hal indah datang tanpa diminta 🍃",
+      "Tetap jadi Novalia yang lembut, manis, dan selalu aku banggakan ya 🩷",
+      "Selamat ulang tahun Novalia sayangggg, bahagia terus yawww 🙂🙂"
+    ];
 
-    // Musik control
-    const music = document.getElementById("bgMusic");
-    function toggleMusic() {
-      if (music.paused) {
-        music.play();
+    const titleEl = document.getElementById("title");
+    const msgEl = document.getElementById("message");
+
+    let i = 0;
+    let j = 0;
+    let currentMessage = "";
+    let isTitleDone = false;
+
+    function typeEffect() {
+      if (!isTitleDone) {
+        if (i < title.length) {
+          titleEl.textContent += title.charAt(i);
+          i++;
+          setTimeout(typeEffect, 100);
+        } else {
+          isTitleDone = true;
+          setTimeout(typeEffect, 1000);
+        }
       } else {
-        music.pause();
+        if (j < messages.length) {
+          currentMessage = messages[j];
+          msgEl.textContent = "";
+          typeSentence(currentMessage, 0, () => {
+            j++;
+            setTimeout(typeEffect, 3000);
+          });
+        }
       }
     }
+
+    function typeSentence(sentence, index, callback) {
+      if (index < sentence.length) {
+        msgEl.textContent += sentence.charAt(index);
+        setTimeout(() => typeSentence(sentence, index + 1, callback), 60);
+      } else if (callback) {
+        callback();
+      }
+    }
+
+    function createBalloons() {
+      for (let i = 0; i < 20; i++) {
+        let balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.animationDelay = Math.random() * 5 + "s";
+        balloon.style.background = `hsl(${Math.random() * 360}, 70%, 80%)`;
+        document.body.appendChild(balloon);
+      }
+    }
+
+    createBalloons();
+    typeEffect();
   </script>
 </body>
 </html>
