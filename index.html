@@ -3,81 +3,146 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Selamat Ulang Tahun Novalia 💕</title>
+  <title>Selamat Ulang Tahun Novalia 🎂</title>
   <style>
     body {
       margin: 0;
       padding: 0;
+      overflow: hidden;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ffd6e0, #c6e2ff, #e5ccff);
-      font-family: "Poppins", sans-serif;
-      overflow: hidden;
-    }
-
-    .text {
-      font-size: 26px;
-      font-weight: 500;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0, #a1c4fd, #c2e9fb);
+      background-size: 300% 300%;
+      animation: gradient 15s ease infinite;
+      font-family: 'Poppins', sans-serif;
       color: #fff;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-      width: 80%;
       text-align: center;
-      white-space: pre-line;
-      line-height: 1.6;
-      opacity: 0;
-      transition: opacity 1s ease;
     }
 
-    .fade-in {
-      opacity: 1;
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #container {
+      position: relative;
+      z-index: 2;
+      padding: 25px 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(255,255,255,0.3);
+      max-width: 600px;
+    }
+
+    #message {
+      font-size: 1.4rem;
+      line-height: 2rem;
+      opacity: 0;
+      transition: opacity 1s;
+      min-height: 200px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 40px;
+      height: 50px;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: floatUp 10s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    #btn {
+      background: #fff;
+      color: #ff4081;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 10px rgba(255,255,255,0.4);
+    }
+
+    #btn:hover {
+      transform: scale(1.1);
+      background: #ff80ab;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <audio autoplay>
-    <source src="Happy Birthday (Piano Version).mp3" type="audio/mp3">
+
+  <div id="container">
+    <h2>💖 Klik tombol di bawah ya 💖</h2>
+    <button id="btn">🎂 Mulai 🎂</button>
+    <div id="message"></div>
+  </div>
+
+  <audio id="bgm" autoplay loop>
+    <source src="Happy Birthday (Piano Version).mp3" type="audio/mpeg">
   </audio>
 
-  <div class="text" id="text"></div>
-
   <script>
-    const messages = [
-      "Hari ini...\nhari yang istimewa buat seseorang yang paling aku sayang... 💕",
-      "Kamu sekarang udah genap 18 tahun...\numur yang penuh warna, cerita baru, dan harapan yang makin indah 🌈",
-      "Terima kasih udah jadi bagian terindah dalam hidupku.\nTetap tersenyum yaa, karena senyum kamu tuh bisa bikin duniaku lebih berwarna 🌷",
+    const btn = document.getElementById("btn");
+    const message = document.getElementById("message");
+    const text = [
+      "Hari ini...",
+      "hari yang istimewa buat seseorang yang paling aku sayang... 💕",
+      "Kamu sekarang udah genap 18 tahun...",
+      "umur yang penuh warna, cerita baru, dan harapan yang makin indah 🌈",
+      "Terima kasih udah jadi bagian terindah dalam hidupku. Tetap tersenyum yaa, karena senyum kamu tuh bisa bikin duniaku lebih berwarna 🌷",
       "Selamat ulang tahun Novalia sayangggg, bahagia terus yawww🙂🙂"
     ];
 
-    const textElement = document.getElementById("text");
-    let msgIndex = 0;
-    let charIndex = 0;
+    btn.addEventListener("click", () => {
+      btn.style.display = "none";
+      const music = document.getElementById("bgm");
+      music.play().catch(() => {});
+      createBalloons();
+      showMessages();
+    });
 
-    function typeMessage() {
-      if (charIndex === 0) {
-        textElement.textContent = "";
-        textElement.classList.add("fade-in");
-      }
-
-      if (charIndex < messages[msgIndex].length) {
-        textElement.textContent += messages[msgIndex].charAt(charIndex);
-        charIndex++;
-        setTimeout(typeMessage, 60); // kecepatan ketik
-      } else {
-        // tunggu 2.5 detik, lalu fade out dan lanjut kalimat berikut
-        setTimeout(() => {
-          textElement.classList.remove("fade-in");
+    function showMessages() {
+      let i = 0;
+      function next() {
+        if (i < text.length) {
+          message.style.opacity = 0;
           setTimeout(() => {
-            charIndex = 0;
-            msgIndex = (msgIndex + 1) % messages.length;
-            typeMessage();
+            message.textContent = text[i];
+            message.style.opacity = 1;
+            i++;
+            setTimeout(next, 3500);
           }, 1000);
-        }, 2500);
+        }
       }
+      next();
     }
 
-    typeMessage();
+    function createBalloons() {
+      const colors = ["#ff4d6d", "#ffb6c1", "#ffd166", "#06d6a0", "#118ab2", "#a29bfe"];
+      setInterval(() => {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.animationDuration = 8 + Math.random() * 4 + "s";
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 12000);
+      }, 400);
+    }
   </script>
+
 </body>
 </html>
