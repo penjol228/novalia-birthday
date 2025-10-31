@@ -17,8 +17,8 @@
       background-size: 300% 300%;
       animation: gradient 15s ease infinite;
       font-family: 'Poppins', sans-serif;
-      color: white;
       text-align: center;
+      color: #fff;
     }
 
     @keyframes gradient {
@@ -27,21 +27,24 @@
       100% { background-position: 0% 50%; }
     }
 
-    #container {
-      position: relative;
+    #message {
       z-index: 2;
+      max-width: 600px;
       padding: 20px;
       background: rgba(255, 255, 255, 0.15);
       border-radius: 20px;
       backdrop-filter: blur(10px);
       box-shadow: 0 0 20px rgba(255,255,255,0.3);
-      max-width: 600px;
-    }
-
-    #message {
       font-size: 1.3rem;
       line-height: 1.8rem;
-      white-space: pre-line;
+      opacity: 0;
+      animation: fadeIn 3s ease forwards;
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .balloon {
@@ -58,32 +61,20 @@
       0% { transform: translateY(0); opacity: 1; }
       100% { transform: translateY(-110vh); opacity: 0; }
     }
-
-    #btn {
-      background: #fff;
-      color: #ff4081;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 25px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 0 10px rgba(255,255,255,0.4);
-    }
-
-    #btn:hover {
-      transform: scale(1.1);
-      background: #ff80ab;
-      color: white;
-    }
   </style>
 </head>
 <body>
 
-  <div id="container">
-    <h2>💖 Klik tombol di bawah ya 💖</h2>
-    <button id="btn">🎂 Mulai 🎂</button>
-    <div id="message"></div>
+  <div id="message">
+    Hari ini...<br>
+    hari yang istimewa buat seseorang yang paling aku sayang... 💕<br><br>
+    Kamu sekarang udah genap 18 tahun...<br>
+    umur yang penuh warna, cerita baru, dan harapan yang makin indah 🌈<br><br>
+    Terima kasih udah jadi bagian terindah dalam hidupku.<br>
+    Kamu itu cahaya kecil yang selalu bikin segalanya terasa hangat ✨<br><br>
+    Tetap tersenyum yaa,<br>
+    karena senyum kamu tuh bisa bikin dunia lebih berwarna 🌷<br><br>
+    <b>Selamat ulang tahun Novalia sayangggg, bahagia terus yawww🙂🙂</b>
   </div>
 
   <audio id="bgm" autoplay loop>
@@ -91,50 +82,6 @@
   </audio>
 
   <script>
-    const btn = document.getElementById("btn");
-    const message = document.getElementById("message");
-    const text = [
-      "Hari ini...",
-      "hari yang istimewa buat seseorang yang paling aku sayang... 💕",
-      "Kamu sekarang udah genap 18 tahun...",
-      "umur yang penuh warna, cerita baru, dan harapan yang makin indah 🌈",
-      "Terima kasih udah jadi bagian terindah dalam hidupku.",
-      "Kamu itu cahaya kecil yang selalu bikin segalanya terasa hangat ✨",
-      "Tetap tersenyum yaa,",
-      "karena senyum kamu tuh bisa bikin dunia lebih berwarna 🌷",
-      "Selamat ulang tahun Novalia sayangggg, bahagia terus yawww🙂🙂"
-    ];
-
-    const colors = ["#fff", "#ffb6c1", "#ffc0cb", "#e6e6fa", "#f8f9fa"];
-
-    btn.addEventListener("click", () => {
-      btn.style.display = "none";
-      const music = document.getElementById("bgm");
-      music.play().catch(() => {});
-      createBalloons();
-      typeEffect();
-    });
-
-    function typeEffect() {
-      let i = 0;
-      function showNextLine() {
-        if (i < text.length) {
-          const line = document.createElement("div");
-          line.textContent = text[i];
-          line.style.color = colors[i % colors.length];
-          line.style.opacity = 0;
-          line.style.transition = "opacity 1s";
-          message.appendChild(line);
-
-          setTimeout(() => line.style.opacity = 1, 100);
-
-          i++;
-          setTimeout(showNextLine, 3000);
-        }
-      }
-      showNextLine();
-    }
-
     function createBalloons() {
       const colors = ["#ff4d6d", "#ffb6c1", "#ffd166", "#06d6a0", "#118ab2", "#a29bfe"];
       setInterval(() => {
@@ -147,6 +94,12 @@
         setTimeout(() => balloon.remove(), 12000);
       }, 400);
     }
+
+    window.onload = () => {
+      createBalloons();
+      const music = document.getElementById("bgm");
+      music.play().catch(() => {});
+    };
   </script>
 
 </body>
