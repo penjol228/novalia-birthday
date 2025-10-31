@@ -1,5 +1,119 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-<head><meta charset="utf-8"><title>Untuk Novalia — Selamat Ulang Tahun</title></head>
-<body><h1>Untuk Novalia — Selamat Ulang Tahun 🎉</h1><p>Novalia sayang, hari ini aku mau berhenti sejenak dari kesibukan dan bilang satu hal sederhana: terima kasih. Terima kasih karena kamu sudah jadi alasan aku tersenyum, jadi teman di setiap hari, dan jadi tempat aku pulang. Selamat ulang tahun, Novalia ❤️</p></body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Novalia 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      animation: fadeInDown 2s ease-in-out;
+    }
+
+    p {
+      color: white;
+      font-size: 1.2em;
+      max-width: 450px;
+      animation: fadeInUp 3s ease-in-out;
+      line-height: 1.5;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Balon animasi */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-110vh); }
+    }
+
+    /* Button musik */
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: rgba(255,255,255,0.8);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .music-btn:hover {
+      background-color: rgba(255,255,255,1);
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Selamat Ulang Tahun, Novalia 🎂</h1>
+  <p>Hari ini bukan cuma tentang bertambahnya usia,  
+     tapi juga tentang betapa berartinya kamu di hidupku.  
+     Semoga senyum kamu selalu jadi alasan bahagia dunia 💕</p>
+
+  <button class="music-btn" onclick="toggleMusic()">🎵 Musik</button>
+
+  <audio id="bgMusic" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_4b1f84c3c7.mp3?filename=happy-birthday-12462.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Fungsi buat balon
+    function createBalloon() {
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 70%)`;
+      balloon.style.animationDuration = (5 + Math.random() * 5) + 's';
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 7000);
+    }
+    setInterval(createBalloon, 400);
+
+    // Musik control
+    const music = document.getElementById("bgMusic");
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+  </script>
+</body>
 </html>
