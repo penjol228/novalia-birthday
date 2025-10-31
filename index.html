@@ -58,23 +58,37 @@
       100% { transform: translateY(-110vh); opacity: 0; }
     }
 
-    iframe {
-      position: absolute;
-      bottom: 10px;
-      width: 0;
-      height: 0;
+    .start-btn {
+      background: rgba(255, 255, 255, 0.9);
+      color: #e57373;
       border: none;
+      font-size: 1.1em;
+      padding: 12px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .start-btn:hover {
+      background: #fff;
+      transform: scale(1.05);
+    }
+
+    iframe {
+      display: none;
     }
   </style>
 </head>
 <body>
+  <button class="start-btn" id="startBtn">🎵 Klik untuk mulai kejutan</button>
+
   <h1 id="title"></h1>
   <p id="message"></p>
 
-  <!-- YouTube player autoplay halus -->
   <iframe 
     id="musicPlayer"
-    src="https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0&mute=1" 
+    src="https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0" 
     allow="autoplay">
   </iframe>
 
@@ -91,38 +105,42 @@
 
     const titleEl = document.getElementById("title");
     const msgEl = document.getElementById("message");
-
-    let i = 0, j = 0, isTitleDone = false;
+    const btn = document.getElementById("startBtn");
+    const iframe = document.getElementById("musicPlayer");
 
     function typeEffect() {
-      if (!isTitleDone) {
-        if (i < title.length) {
-          titleEl.textContent += title.charAt(i);
-          i++;
-          setTimeout(typeEffect, 100);
-        } else {
-          isTitleDone = true;
-          setTimeout(typeEffect, 1000);
-        }
-      } else {
-        if (j < messages.length) {
-          let current = messages[j];
-          msgEl.textContent = "";
-          typeSentence(current, 0, () => {
-            j++;
-            setTimeout(typeEffect, 2500);
-          });
-        }
-      }
-    }
+      let i = 0, j = 0, isTitleDone = false;
 
-    function typeSentence(sentence, index, callback) {
-      if (index < sentence.length) {
-        msgEl.textContent += sentence.charAt(index);
-        setTimeout(() => typeSentence(sentence, index + 1, callback), 60);
-      } else if (callback) {
-        callback();
+      function typing() {
+        if (!isTitleDone) {
+          if (i < title.length) {
+            titleEl.textContent += title.charAt(i);
+            i++;
+            setTimeout(typing, 100);
+          } else {
+            isTitleDone = true;
+            setTimeout(typing, 1000);
+          }
+        } else {
+          if (j < messages.length) {
+            let current = messages[j];
+            msgEl.textContent = "";
+            typeSentence(current, 0, () => {
+              j++;
+              setTimeout(typing, 2500);
+            });
+          }
+        }
       }
+
+      function typeSentence(sentence, index, callback) {
+        if (index < sentence.length) {
+          msgEl.textContent += sentence.charAt(index);
+          setTimeout(() => typeSentence(sentence, index + 1, callback), 60);
+        } else if (callback) callback();
+      }
+
+      typing();
     }
 
     function createBalloons() {
@@ -136,14 +154,13 @@
       }
     }
 
-    // Fade-in musik biar gak delay kasar
-    const iframe = document.getElementById("musicPlayer");
-    setTimeout(() => {
-      iframe.src = "https://www.youtube.com/embed/vhVBWw6rId0?autoplay=1&loop=1&playlist=vhVBWw6rId0&mute=0";
-    }, 1500);
-
-    createBalloons();
-    typeEffect();
+    btn.addEventListener("click", () => {
+      btn.style.display = "none";
+      iframe.style.display = "block";
+      iframe.src += "&autoplay=1"; // mulai musik
+      createBalloons();
+      typeEffect();
+    });
   </script>
 </body>
 </html>
